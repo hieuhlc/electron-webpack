@@ -40,6 +40,7 @@ export function getAppConfiguration(env: ConfigurationEnv) {
       filename: 'server.js',
       path: path.resolve(conf.output!.path!, '../server')
     }
+    delete conf.externals
     return conf
   })
   return BluebirdPromise.filter([configMain, configServer, configure("renderer", env)], it => it != null)
