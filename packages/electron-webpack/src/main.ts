@@ -23,20 +23,23 @@ const _debug = require("debug")
 
 // noinspection JSUnusedGlobalSymbols
 export function getAppConfiguration(env: ConfigurationEnv) {
-  const baseConfigMain = configure("main", env)
-  const configMain = baseConfigMain.then(conf => {
+  const configMain = configure("main", env).then(conf => {
     if (conf == null || !conf.entry) {
       return conf
     }
-    delete (conf.entry as Entry).server
+    conf.entry = (conf.entry as Entry).main
     return conf
   })
-  const configServer = baseConfigMain.then(conf => {
+  const configServer = configure("main", env).then(conf => {
     if (conf == null || !conf.entry || !(conf.entry as Entry).server) {
       return null
     }
-    delete (conf.entry as Entry).main
+    conf.entry = (conf.entry as Entry).server
     conf.target = 'node'
+    conf.output = {
+      filename: 'server.js',
+      path: path.resolve(conf.output!.path!, '../server')
+    }
     return conf
   })
   return BluebirdPromise.filter([configMain, configServer, configure("renderer", env)], it => it != null)
