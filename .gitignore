@@ -2,9 +2,9 @@
 /packages/*/out/
 node_modules/
 lerna-debug.log
-packages/electron-webpack/readme.md
+# packages/electron-webpack/readme.md
 _book/
-packages/electron-webpack/scheme.json
+# packages/electron-webpack/scheme.json
 
 # to not exclude .js.snap (jest snapshots)
 /test/out/**/*.js
