@@ -1,6 +1,6 @@
 {
-  "name": "electron-webpack",
-  "version": "2.6.0",
+  "name": "@monospaces/electron-webpack",
+  "version": "2.6.1",
   "license": "MIT",
   "author": "Vladimir Krivosheev <develar@gmail.com>",
   "main": "out/main.js",
@@ -14,7 +14,10 @@
   "bin": {
     "electron-webpack": "./out/cli.js"
   },
-  "repository": "electron-userland/electron-webpack",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hieuhlc-userland/electron-webpack.git"
+  },
   "engines": {
     "node": ">=6.11.4"
   },
@@ -55,5 +58,14 @@
   "types": "./out/main.d.ts",
   "publishConfig": {
     "tag": "next"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/hieuhlc-userland/electron-webpack/issues"
+  },
+  "homepage": "https://github.com/hieuhlc-userland/electron-webpack#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "description": ""
 }

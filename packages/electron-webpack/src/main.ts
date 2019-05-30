@@ -6,7 +6,7 @@ import * as path from "path"
 import { validateConfig } from "read-config-file"
 import { deepAssign } from "read-config-file/out/deepAssign"
 import "source-map-support/register"
-import { Configuration, Plugin, RuleSetRule } from "webpack"
+import { Configuration, Plugin, RuleSetRule, Entry } from "webpack"
 import merge from "webpack-merge"
 import { getElectronWebpackConfiguration, getPackageMetadata } from "./config"
 import { configureTypescript } from "./configurators/ts"
@@ -23,7 +23,23 @@ const _debug = require("debug")
 
 // noinspection JSUnusedGlobalSymbols
 export function getAppConfiguration(env: ConfigurationEnv) {
-  return BluebirdPromise.filter([configure("main", env), configure("renderer", env)], it => it != null)
+  const baseConfigMain = configure("main", env)
+  const configMain = baseConfigMain.then(conf => {
+    if (conf == null || !conf.entry) {
+      return conf
+    }
+    delete (conf.entry as Entry).server
+    return conf
+  })
+  const configServer = baseConfigMain.then(conf => {
+    if (conf == null || !conf.entry || !(conf.entry as Entry).server) {
+      return null
+    }
+    delete (conf.entry as Entry).main
+    conf.target = 'node'
+    return conf
+  })
+  return BluebirdPromise.filter([configMain, configServer, configure("renderer", env)], it => it != null)
 }
 
 // noinspection JSUnusedGlobalSymbols
