@@ -193,7 +193,7 @@ export class WebpackConfigurator {
         libraryTarget: "commonjs2",
         path: path.join(this.commonDistDirectory, this.type)
       },
-      target: this.isTest ? "node" : `electron-${this.type === "renderer-dll" ? "renderer" : this.type}` as any,
+      target: this.isTest ? "node" : this.type === "renderer" || this.type === "renderer-dll" ? "web" : `electron-${this.type}` as any,
       resolve: {
         alias: {
           "@": this.sourceDir,
